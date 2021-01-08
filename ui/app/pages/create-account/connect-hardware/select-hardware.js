@@ -41,6 +41,23 @@ export default class SelectHardware extends Component {
     )
   }
 
+  renderConnectToLatticeButton () {
+    return (
+      <button
+        className={classnames('hw-connect__btn', {
+          'selected': this.state.selectedDevice === 'lattice',
+        })}
+        onClick={_ => this.setState({ selectedDevice: 'lattice' })}
+      >
+        <img
+          className="hw-connect__btn__img"
+          src="images/lattice-logo.png"
+          alt=""
+        />
+      </button>
+    )
+  }
+
   renderConnectToLedgerButton () {
     return (
       <button
@@ -64,6 +81,9 @@ export default class SelectHardware extends Component {
         <div className="hw-connect__btn-wrapper">
           {this.renderConnectToLedgerButton()}
           {this.renderConnectToTrezorButton()}
+        </div>
+        <div className="hw-connect__btn-wrapper" style={{ margin: '10px 0 0 0' }}>
+          {this.renderConnectToLatticeButton()}
         </div>
         <Button
           type="primary"
@@ -111,10 +131,11 @@ export default class SelectHardware extends Component {
     const links = {
       trezor: `<a class='hw-connect__get-hw__link' href='https://shop.trezor.io/product/trezor-one-metallic?offer_id=24&aff_id=3494' target='_blank'>Trezor</a>`,
       ledger: `<a class='hw-connect__get-hw__link' href='https://shop.ledger.com/?r=0ba5d7199327' target='_blank'>Ledger</a>`,
+      lattice: `<a class='hw-connect__get-hw__link' href='https://gridplus.io/lattice?ref=brave' target='_blank'>Lattice</a>`,
     }
 
     const text = this.context.t('orderOneHere')
-    const response = text.replace('Trezor', links.trezor).replace('Ledger', links.ledger)
+    const response = text.replace('Trezor', links.trezor).replace('Ledger', links.ledger).replace('Lattice', links.lattice)
 
     return (
       <div
