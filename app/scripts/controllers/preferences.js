@@ -62,7 +62,7 @@ export default class PreferencesController {
 
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link',
-
+      batTokenAdded: false,
       hardwareConnect: false,
     }, opts.initState)
 
@@ -384,11 +384,15 @@ export default class PreferencesController {
 
     selectedIdentity.lastSelected = Date.now()
     this.store.updateState({ identities, selectedAddress: address })
-    this._ensureBatTokenAdded(address)
+
+    if (!this.store.getState().batTokenAdded) {
+      this._addBatToken(address)
+    }
+
     return Promise.resolve(tokens)
   }
 
-  _ensureBatTokenAdded (address) {
+  _addBatToken (address) {
     const tokens = this.store.getState().tokens
     const assetImages = this.getAssetImages()
     const { accountTokens } = this._getTokenRelatedStates()
@@ -425,7 +429,7 @@ export default class PreferencesController {
       tokens.push(BATToken)
     }
 
-    this.store.updateState({ accountTokens, tokens, assetImages })
+    this.store.updateState({ accountTokens, tokens, assetImages, batTokenAdded: true })
   }
 
   /**
